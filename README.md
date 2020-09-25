@@ -6,7 +6,7 @@ rust-vmm is an open-source project that empowers the community to build custom
 Virtual Machine Monitors (VMMs) and hypervisors. It provides a set of
 virtualization components that any Rust project can use to quickly develop
 virtualization solutions while focusing on the key differentiators of their
-product rather than re-implementing common components like KVM wrappers, virtio
+product rather than reimplementing common components like KVM wrappers, virtio
 devices and other VMM libraries.
 
 The rust-vmm project is organized as a shared effort, shared ownership
