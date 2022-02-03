@@ -6,40 +6,40 @@ rust-vmm is an open-source project that empowers the community to build custom
 Virtual Machine Monitors (VMMs) and hypervisors. It provides a set of
 virtualization components that any Rust project can use to quickly develop
 virtualization solutions while focusing on the key differentiators of their
-product rather than reimplementing common components like KVM wrappers, virtio
-devices and other VMM libraries.
+product rather than reimplementing common components like [KVM][] wrappers,
+[virtio][] devices and other VMM libraries.
 
-The rust-vmm project is organized as a shared effort, shared ownership
+[KVM]: https://www.linux-kvm.org/
+[virtio]: https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=virtio
+
+The rust-vmm project is organized as a shared effort, shared ownership,
 open-source project that includes (so far) contributors from Alibaba, AWS,
 Cloud Base, Crowdstrike, Intel, Google, Red Hat as well as individual
 contributors.
 
-Each virtualization component lives in a separate GitHub repository under the
-rust-vmm organization. One repository corresponds to one
+Each virtualization component lives in a separate Git repository under the
+rust-vmm GitHub Organization. Each repository corresponds to one
 [Rust crate](https://doc.rust-lang.org/stable/book/ch07-01-packages-and-crates.html).
 
 ## Why rust-vmm?
 
 - **Reduce code duplication**. The initial thought with rust-vmm was to create
   a place for sharing common virtualization components between two existing
-  VMMs written in Rust:
-  [CrosVM](https://chromium.googlesource.com/chromiumos/platform/crosvm/) and
-  [Firecracker](https://github.com/firecracker-microvm/firecracker/). These
+  VMMs written in Rust: [CrosVM][] and [Firecracker][]. These
   two projects have similar code for calling KVM ioctls, managing the
   virtual machine memory, interacting with virtio devices and others. Instead
-  of having these components live in each of the projects repositories, they
+  of having these components live in each of the projects' repositories, they
   can be shared through the rust-vmm project.
 - **Faster development**. rust-vmm provides a base of virtualization components
   which are meant to be generic such that they can be consumed by other
   projects besides CrosVM and Firecracker. One example that is often mentioned
-  is building a container specific VMM. By doing so, the container VMM can
+  is building a container-specific VMM. By doing so, the container VMM can
   reuse most of the rust-vmm components and simply build the glue around them
   as well as an appropriate API for interacting with the container.
 - **Security & Testability**. Having independent components makes fuzz testing
-  easy to apply to each individual package. Our top priority is now
-  [vm-virtio](https://github.com/rust-vmm/vm-virtio) as it provides a
-  [virtio](https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=virtio)
-  device implementation. We want to keep a high standard in terms of testing
+  easy to apply to each individual package. Our top priority right now is
+  [vm-virtio][] as it provides a virtio device implementation. We want to keep a
+  high standard in terms of testing
   as these virtualization packages are going to be used in production by
   multiple projects. Each component is individually tested with a set of
   common build time tests responsible for running unit tests and linters
@@ -51,10 +51,14 @@ rust-vmm organization. One repository corresponds to one
   reviews up to the point we are confident the interface is clean and reusable
   by other projects.
 
+[CrosVM]: https://chromium.googlesource.com/chromiumos/platform/crosvm/
+[Firecracker]: https://github.com/firecracker-microvm/firecracker/
+[vm-virtio]: https://github.com/rust-vmm/vm-virtio
+
 ## Status of rust-vmm Components
 
 Each rust-vmm crate lives in its own repository. Depending on where the
-latest crate code is, the crate can be in one of 3 states:
+latest crate code resides, the crate can be in one of 3 states:
 
 1. `empty`: The crate repo exists but there is no code there yet. This
    means the crate was created after a community acknowledgement about its
@@ -63,22 +67,24 @@ latest crate code is, the crate can be in one of 3 states:
 
 1. `rust-vmm`: The code is a work in progress. Once it meets the production
    [requirements](#publishing-on-cratesio---requirements-list), the crate
-   will be pushed to [crates.io](https://crates.io).
+   will be pushed to [crates.io][].
 
 1. `crates.io`: The crate is considered to be production ready. It can be
-   consumed from Rust's canonical crate registry:
-   [crates.io](https://crates.io). The crate repository in rust-vmm
-   is as a staging area until the next push to [crates.io](https://crates.io).
-   In other words, the production ready version of the code lives in
-   [crates.io](https://crates.io) while development happens in the rust-vmm
-   git repo.
+   consumed from Rust's canonical crate registry, crates.io. The crate
+   repository in rust-vmm is as a staging area until the next push to crates.io.
+   In other words, the production ready version of the code lives in crates.io
+   while development happens in the rust-vmm Git repo.
+
+[crates.io]: https://crates.io
 
 ### empty
 
-These are the empty repositories that have PRs waiting to be merged.
+Following are the empty repositories that may have PRs waiting to be merged.
 
 - [vmm-vcpu](https://github.com/rust-vmm/vmm-vcpu/): a hypervisor-agnostic
   abstraction for Virtual CPUs (vCPUs).
+- [kvm](https://github.com/rust-vmm/kvm): Will be possibly used for KVM related
+  crates.
 
 ### rust-vmm
 
